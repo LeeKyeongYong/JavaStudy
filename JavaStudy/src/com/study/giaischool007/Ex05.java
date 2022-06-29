@@ -13,7 +13,7 @@ public class Ex05 {
 				 
 				 System.out.print(i+" * "+k+" = "+(i*k)+" ");
 			 }
-			 System.out.println();
+			 System.out.println("");
 			}
 			
 		
