@@ -1,3 +1,4 @@
+package com.study.giaischool008;
 import java.util.Scanner;
 
 /*
@@ -37,7 +38,9 @@ public class Ex05 {
 		}
 		
 
+		
 		int min=jumsu[0]; //최소치
+		
 		for(int i=0; i<jumsu.length; i++) {
 			if(jumsu[i]<min) {
 				min=jumsu[i];
