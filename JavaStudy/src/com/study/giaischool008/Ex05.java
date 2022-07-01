@@ -1,4 +1,3 @@
-package com.study.giaischool008;
 import java.util.Scanner;
 
 /*
