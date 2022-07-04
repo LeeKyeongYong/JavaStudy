@@ -5,7 +5,7 @@ package com.study.giaischool002;
 public class Exam03 {
 	public static void main(String[] args) {
 		//추가로 문자열을 저장할 수 있는 변수
-		String name = "이경용";
+		String name = "홍길동";
 		//System.out.println(name);
 		
 		String myPen = "빨간색";
