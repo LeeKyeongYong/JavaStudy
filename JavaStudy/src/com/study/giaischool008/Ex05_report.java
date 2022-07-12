@@ -10,7 +10,6 @@ public class Ex05_report {
 		 *  4: ****
 		 *  2: **
 		 *  1: *
-		 *  https://kkh0977.tistory.com/category/Java
 		 */
 		for(int i=0; i<arr.length; i++) {
 			System.out.print(arr[i]+":");
