@@ -120,11 +120,12 @@ public class MemberController {
 						String rsPw=rs.getString("PW");
 						String rsName=rs.getString("NAME");
 						String rsNick=rs.getString("NICK");
-						System.out.println("( "+rsName+" )님의("+rsNick+") 아이디는 "+rsId+" 이며, 비밀번호는: "+rsPw+" 입니다");
+						System.out.println("( "+rsNick+" )님의( "+rsName+" ) 아이디는 "+rsId+" 이며, 비밀번호는: "+rsPw+" 입니다");
+					} else {
+						System.out.println("존재하지않습니다.");
 					}
 				}catch (ClassNotFoundException cnfe) {
 					// TODO: handle exception
-
 					System.err.println("Class에러.."+cnfe.getMessage());
 				}catch (SQLException se) {
 					// TODO: handle exception
@@ -148,10 +149,55 @@ public class MemberController {
 				}
 			} else if(chocie == 3) {
 				//update합니다.
+				//입력받은 id가 일치하는것을 찾아 nick변경
 				System.out.println("====수정====");
+				
+				System.out.print("ID: ");
+				String userId=sc.next();
+				System.out.print("변경해야할 nick: ");
+				String userNick=sc.next();
+				
+				String i_sql="update SPRINGMEMBER set nick = ? where id = ?";
+				
+				try {
+					Class.forName("oracle.jdbc.driver.OracleDriver");
+					String url="jdbc:oracle:thin:@127.0.0.1:1521:XE";
+					String id="hr";
+					String pw="hr";
+					con=DriverManager.getConnection(url,id,pw);
+					pstmt=con.prepareStatement(i_sql);
+					pstmt.setString(1,userNick);
+					pstmt.setString(2,userId);
+					int cnt=pstmt.executeUpdate(); //업데이트 수정 사용... 등록 삭제 사용..
+					if(cnt>0) {
+						System.err.println("수정 성공");
+					} else {
+						System.err.println("수정 실패");
+					}
+				}catch (ClassNotFoundException e) {
+					// TODO Auto-generated catch block
+					System.err.println("Class에러.."+e.getMessage());
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+					try {
+						if(pstmt!=null) {
+							pstmt.close();
+						}
+						if(con!=null) {
+							con.close();
+						}
+					} catch (Exception ce) {
+						// TODO: handle exception
+						System.out.println("Close종료: "+ce.getMessage());
+					}
+				}
+				
 			} else if(chocie == 4) {
 				//delete합니다.
 				//삭제할 id를 입력받아 동일한 ID를 가진 녀석을 삭제하시오.
+				
 				System.out.println("====삭제====");
 				System.out.print("ID: ");
 				String userId=sc.next();
@@ -186,8 +232,9 @@ public class MemberController {
 						if(con!=null) {
 							con.close();
 						}
-					} catch (Exception e2) {
+					} catch (Exception ce) {
 						// TODO: handle exception
+						System.out.println("close 에러: "+ce.getMessage());
 					}
 				}
 				
@@ -199,4 +246,5 @@ public class MemberController {
 		}
 		sc.close();
 	}
+
 }
