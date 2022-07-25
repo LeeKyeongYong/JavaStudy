@@ -65,9 +65,9 @@ public class MemberController {
 					pstmt.setString(4,userNick);
 					int cnt=pstmt.executeUpdate();
 					if(cnt>0) {
-						System.err.println("등록 성공");
+						System.out.println("등록 성공");
 					} else {
-						System.err.println("등록 실패");
+						System.out.println("등록 실패");
 					}
 					/*
 					  하나라도 있으면 executeUpdate 
@@ -93,7 +93,7 @@ public class MemberController {
 						}
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
-						System.out.println("finall에러 :"+e.getMessage());
+						System.err.println("finall에러 :"+e.getMessage());
 					}
 				}
 			} else if(chocie == 2) {
@@ -101,8 +101,8 @@ public class MemberController {
 				System.out.println("====조회====");
 				System.out.print("ID: ");
 				String userId=sc.next();
-				String i_sql="select id,pw,name,nick from SPRINGMEMBER where ID = ?";
-				//String i_sql="select id,pw,name,nick from SPRINGMEMBER";
+				//String i_sql="select id,pw,name,nick from SPRINGMEMBER where ID = ?";
+				String i_sql="select id,pw,name,nick from SPRINGMEMBER";
 				try {
 					Class.forName("oracle.jdbc.driver.OracleDriver");
 					String url="jdbc:oracle:thin:@127.0.0.1:1521:XE";
@@ -110,20 +110,22 @@ public class MemberController {
 					String pw="hr";
 					con=DriverManager.getConnection(url,id,pw);
 					pstmt=con.prepareStatement(i_sql);
-					//stmt=con.createStatement();
-					//rs=stmt.executeQuery(i_sql);
-					 pstmt.setString(1,userId);
-					 rs=pstmt.executeQuery();
-					 if(rs.next()) {
-					//while(rs.next()) {
-						String rsId=rs.getString("ID");
-						String rsPw=rs.getString("PW");
-						String rsName=rs.getString("NAME");
-						String rsNick=rs.getString("NICK");
-						System.out.println("( "+rsNick+" )님의( "+rsName+" ) 아이디는 "+rsId+" 이며, 비밀번호는: "+rsPw+" 입니다");
-					} else {
+					stmt=con.createStatement();
+					rs=stmt.executeQuery(i_sql);  // 전체 이력 쿼리 실행
+					// pstmt.setString(1,userId); //파라미터를 받았을경우
+					// rs=pstmt.executeQuery(); //특정아이디조회할때
+					// if(rs.next()) { //조건데이터가 존재하는것인가?
+						while(rs.next()) { //전체조회
+							String rsId=rs.getString("ID");
+							String rsPw=rs.getString("PW");
+							String rsName=rs.getString("NAME");
+							String rsNick=rs.getString("NICK");
+							System.out.println("( "+rsNick+" )님의( "+rsName+" ) 아이디는 "+rsId+" 이며, 비밀번호는: "+rsPw+" 입니다");
+						}
+					/*else { //데이터가 존재하지않을경우
 						System.out.println("존재하지않습니다.");
 					}
+					*/
 				}catch (ClassNotFoundException cnfe) {
 					// TODO: handle exception
 					System.err.println("Class에러.."+cnfe.getMessage());
@@ -144,7 +146,7 @@ public class MemberController {
 						}
 					} catch (Exception e) {
 						// TODO: handle exception
-						System.out.println("close 에러: "+e.getMessage());
+						System.err.println("close 에러: "+e.getMessage());
 					}
 				}
 			} else if(chocie == 3) {
@@ -170,9 +172,9 @@ public class MemberController {
 					pstmt.setString(2,userId);
 					int cnt=pstmt.executeUpdate(); //업데이트 수정 사용... 등록 삭제 사용..
 					if(cnt>0) {
-						System.err.println("수정 성공");
+						System.out.println("수정 성공");
 					} else {
-						System.err.println("수정 실패");
+						System.out.println("수정 실패");
 					}
 				}catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -190,7 +192,7 @@ public class MemberController {
 						}
 					} catch (Exception ce) {
 						// TODO: handle exception
-						System.out.println("Close종료: "+ce.getMessage());
+						System.err.println("Close종료: "+ce.getMessage());
 					}
 				}
 				
@@ -214,9 +216,9 @@ public class MemberController {
 					pstmt.setString(1,userId);
 					int cnt=pstmt.executeUpdate(); //업데이트 수정 사용... 등록 삭제 사용..
 					if(cnt>0) {
-						System.err.println("삭제 성공");
+						System.out.println("삭제 성공");
 					} else {
-						System.err.println("삭제 실패");
+						System.out.println("삭제 실패");
 					}
 				}catch (ClassNotFoundException e) {
 					// TODO Auto-generated catch block
@@ -234,7 +236,7 @@ public class MemberController {
 						}
 					} catch (Exception ce) {
 						// TODO: handle exception
-						System.out.println("close 에러: "+ce.getMessage());
+						System.err.println("close 에러: "+ce.getMessage());
 					}
 				}
 				
@@ -246,5 +248,4 @@ public class MemberController {
 		}
 		sc.close();
 	}
-
 }
